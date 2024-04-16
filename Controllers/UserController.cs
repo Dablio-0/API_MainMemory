@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API_MainMemory.Controllers
 {
-    [Controller]
+    [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
@@ -28,16 +28,16 @@ namespace API_MainMemory.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateUser(User usuario)
+        public IActionResult CreateUser(User user)
         {
-            _usersRepository.CreateUser(usuario);
+            _usersRepository.CreateUser(user);
             return Ok("User Created Successfully");
         }
 
         [HttpPut]
-        public IActionResult EditUser(User usuario)
+        public IActionResult EditUser(User user)
         {
-            _usersRepository.EditUser(usuario);
+            _usersRepository.EditUser(user);
             return Ok("User Updated Successfully!");
         }
 
@@ -46,6 +46,22 @@ namespace API_MainMemory.Controllers
         {
             _usersRepository.RemoveUser(id);
             return Ok("User Removed Successfully!");
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public IActionResult Login(User user)
+        {
+            var allUser = _usersRepository.ShowAllUsers();
+
+            var userlogin = allUser.FirstOrDefault(user =>
+                (user.email == user.email || user.name == user.name) &&
+                user.password == user.password);
+
+            if (userlogin == null)
+                return NotFound("User not found");
+
+            return Ok("User logged in successfully");
         }
     }
 }

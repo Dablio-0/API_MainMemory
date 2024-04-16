@@ -8,9 +8,9 @@ namespace API_MainMemory.Interfaces
 
         User ShowUserById(int id);
 
-        void CreateUser(User usuario);
+        void CreateUser(User user);
 
-        void EditUser(User usuario);
+        void EditUser(User user);
 
         void RemoveUser(int id);
     }
